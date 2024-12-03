@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from modules.user import router as user_router
+from modules.user.routes import router as user_router
 from modules.health_check import router as health_check_router
 
 app = FastAPI()

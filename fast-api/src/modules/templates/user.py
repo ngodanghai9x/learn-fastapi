@@ -1,3 +1,4 @@
+from fastapi.templating import Jinja2Templates
 from fastapi import FastAPI
 from fastapi import (
     APIRouter,
@@ -13,13 +14,12 @@ from fastapi import (
 
 router = APIRouter(
     # include_in_schema=True,
-    prefix="/user",
-    tags=["user"],
+    prefix="/template/user",
     # dependencies=[Depends(has_user_token)],
 )
 
-@router.post(
-    "/detect",
+@router.get(
+    "/",
     response_model=dict,
     # status_code=status.HTTP_200_OK,
 )
