@@ -7,6 +7,9 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str
 
+# class CompanyCreate(CompanyBase):
+#     pass
+
 class UserResponse(UserBase):
     id: int
 

@@ -8,6 +8,9 @@ Base = declarative_base()
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+# Khởi tạo database
+Base.metadata.create_all(bind=engine)
+
 # Hàm dùng chung để tạo session
 def get_db() -> Session:
     db = SessionLocal()

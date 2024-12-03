@@ -14,13 +14,12 @@ from fastapi import (
 from sqlalchemy.orm import Session
 
 from modules.user import service, dto
-from entities.user import SessionLocal
 from common.db import get_db
 
 router = APIRouter(
     # include_in_schema=True,
     prefix="/users",
-    tags=["user"],
+    # tags=["user"],
     # dependencies=[Depends(has_user_token)],
 )
 
