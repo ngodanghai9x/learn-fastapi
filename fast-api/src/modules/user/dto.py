@@ -14,4 +14,5 @@ class UserResponse(UserBase):
     id: int
 
     class Config:
-        orm_mode = True
+        # orm_mode = True # legacy config key
+        from_attributes = True

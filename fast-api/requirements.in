@@ -3,4 +3,7 @@ uvicorn[standard]
 python-dotenv
 pydantic-settings
 pydantic
+pydantic[email]
 sqlalchemy
+psycopg2-binary
+jinja2

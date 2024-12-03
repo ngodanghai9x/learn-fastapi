@@ -1,0 +1,31 @@
+# version: "3.8"
+
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8010:8010"
+    # volumes:
+    #   - .:/app
+    env_file: ".env"
+    # environment:
+    #   - DATABASE_URL=postgresql://user:password@db:5432/fastapi_db
+    # depends_on:
+    #   - db
+
+  # db:
+  #   image: postgres:15
+  #   container_name: postgres_db
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: fastapi_db
+  #   volumes:
+  #     - db_data:/var/lib/postgresql/data
+
+# volumes:
+#   db_data:
