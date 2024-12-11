@@ -17,3 +17,21 @@ make dev
 
 make run
 ```
+
+## Migration
+To init alembic, run this command:
+```bash
+alembic init alembic
+```
+Then change config on `alembic.ini`, `alembic/env.py` 
+
+(Hint: ```sqlalchemy.url, target_metadata, connectable (run_migrations_online)```)
+
+To create a new migration, run this command (replacing the message as needed):
+```bash
+alembic revision --autogenerate -m "Add jsonb column to user"
+
+alembic upgrade head
+
+alembic downgrade -1
+```
