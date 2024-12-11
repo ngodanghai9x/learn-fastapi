@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 from entities.user import User
 from modules.user import dto
-from modules.user import repo
 from pprint import pprint
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -39,10 +38,6 @@ async def get_users(db: AsyncSession, skip: int = 0, limit: int = 10) -> list[Us
 
 # Update user
 async def update_user(db: AsyncSession, user_id: int, user: dto.UserUpdate) -> User:
-    db_user = await repo.get_user(db, user_id)
-    if not db_user:
-        raise NoResultFound("User not found")
-
     for key, value in user.dict(exclude_unset=True).items():
         setattr(db_user, key, value)
 
@@ -53,10 +48,5 @@ async def update_user(db: AsyncSession, user_id: int, user: dto.UserUpdate) -> U
 
 # Delete user
 async def delete_user(db: AsyncSession, user_id: int):
-    db_user = await repo.get_user(db, user_id)
-
-    pprint('delete_user', db_user)
-    if not db_user:
-        raise NoResultFound("User not found")
     await db.delete(db_user)
     await db.commit()

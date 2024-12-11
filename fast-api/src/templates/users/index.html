@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>User List</h1>
+    <a href="/template/users/new">Create a new user</a>
     <ul>
         {% for user in users %}
         <li><a href="/template/users/{{ user.id }}">{{ user.name }} ({{ user.email }})</a></li>

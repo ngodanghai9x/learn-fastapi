@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
-from modules.user import service, dto
+from modules.user import sync_service, dto
 from common.db import get_db
 
 router = APIRouter(
@@ -22,7 +22,7 @@ templates = Jinja2Templates(directory="src/templates")
 
 @router.get("", response_class=HTMLResponse)
 def read_users(request: Request, db: Session = Depends(get_db)):
-    users = service.get_users(db)
+    users = sync_service.get_users(db)
 
     return templates.TemplateResponse("users/index.html", {"request": request, "users": users})
 
@@ -33,7 +33,7 @@ def create_user_form(request: Request):
 
 @router.get("/{user_id}", response_class=HTMLResponse)
 def read_user(user_id: int, request: Request, db: Session = Depends(get_db)):
-    user = service.get_user(db, user_id=user_id)
+    user = sync_service.get_user(db, user_id=user_id)
     if not user:
         return templates.TemplateResponse("404.html", {"request": request}, status_code=404)
 
@@ -49,6 +49,6 @@ def read_user(user_id: int, request: Request, db: Session = Depends(get_db)):
 #     db: Session = Depends(get_db)
 # ):
 #     user_data = schemas.UserCreate(name=name, email=email, password=password)
-#     service.create_user(db, user=user_data)
+#     sync_service.create_user(db, user=user_data)
 
 #     return HTMLResponse(content="<h1>User Created</h1><a href=''>Back to list</a>")
