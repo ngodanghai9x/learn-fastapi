@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from modules.user.routes import router as user_router
-from modules.user.templates_routes import router as user_templates_router
-from modules.health_check import router as health_check_router
+from src.modules.user.routes import router as user_router
+from src.modules.user.templates_routes import router as user_templates_router
+from src.modules.health_check import router as health_check_router
 
 app = FastAPI()
 app.include_router(user_templates_router, tags=["user_templates"])

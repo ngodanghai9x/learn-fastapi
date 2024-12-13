@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from entities.user import User
-from modules.user import dto
+from src.entities.user import User
+from src.modules.user import dto
 
 def get_user_by_email(db: Session, email: str):
     return db.query(User).filter(User.email == email).first()

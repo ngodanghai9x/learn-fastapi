@@ -11,7 +11,7 @@ from fastapi import (
     status,
     Security,
 )
-from configs.env_setting import env
+from src.configs.env_setting import env
 
 router = APIRouter(
     # include_in_schema=True,

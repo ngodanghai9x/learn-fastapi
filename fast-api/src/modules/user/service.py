@@ -1,12 +1,12 @@
 from sqlalchemy.orm import Session
-from entities.user import User
-from modules.user import dto
-from modules.user import repo
-from pprint import pprint
-
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.exc import NoResultFound
+
+from src.entities.user import User
+from src.modules.user import dto
+from src.modules.user import repo
+from pprint import pprint
 
 # Create user
 async def create_user(db: AsyncSession, user: dto.UserCreate) -> User:
@@ -54,9 +54,12 @@ async def update_user(db: AsyncSession, user_id: int, user: dto.UserUpdate) -> U
 # Delete user
 async def delete_user(db: AsyncSession, user_id: int):
     db_user = await repo.get_user(db, user_id)
+    print("🐍 File: user/ser db_user",db_user.__dict__)
 
-    pprint('delete_user', db_user)
+    # pprint(db_user)
     if not db_user:
         raise NoResultFound("User not found")
     await db.delete(db_user)
     await db.commit()
+
+    return db_user.__dict__

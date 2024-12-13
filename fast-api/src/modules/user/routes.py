@@ -15,8 +15,8 @@ from fastapi import (
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from modules.user import service, dto
-from common.db import get_db, get_async_db
+from src.modules.user import service, dto
+from src.common.db import get_db, get_async_db
 
 router = APIRouter(
     # include_in_schema=True,

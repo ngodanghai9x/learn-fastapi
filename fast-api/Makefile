@@ -1,4 +1,4 @@
-APP_NAME=main
+MAIN_PATH=src.main
 HOST=0.0.0.0
 PORT=8010
 # Sử dụng Bash shell
@@ -22,7 +22,8 @@ dev:
 
 # Chạy ứng dụng FastAPI
 run:
-	uvicorn --app-dir src $(APP_NAME):app --host $(HOST) --port $(PORT) --reload
+	uvicorn $(MAIN_PATH):app --host $(HOST) --port $(PORT) --reload
+# uvicorn --app-dir src $(MAIN_PATH):app --host $(HOST) --port $(PORT) --reload
 # uvicorn --app-dir src main:app --host 0.0.0.0 --port 8010 --reload
 
 # Kiểm tra format code với black

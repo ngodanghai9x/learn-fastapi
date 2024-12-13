@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from entities.user import User
-from modules.user import dto
+from src.entities.user import User
+from src.modules.user import dto
 from pprint import pprint
 
 from sqlalchemy.ext.asyncio import AsyncSession
