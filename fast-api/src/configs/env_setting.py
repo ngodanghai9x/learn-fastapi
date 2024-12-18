@@ -9,9 +9,14 @@ class EnvSettings(BaseSettings):
         # ,extra="ignore"
     )
 
-    app_name: str = Field(..., env="APP_NAME")
-    debug: bool = Field(False, env="DEBUG")
-    secret_key: SecretStr = Field(..., env="SECRET_KEY")
+    APP_NAME: str = Field(..., env="APP_NAME")
+    DEBUG: bool = Field(False, env="DEBUG")
+
+    DB_HOST: str = Field('0.0.0.0', env="DB_HOST")
+    DB_PORT: int = Field(5432, env="DB_PORT")
+    DB_NAME: str = Field('postgres', env="DB_NAME")
+    DB_USER: str = Field('postgres', env="DB_USER")
+    DB_PASSWORD: SecretStr = Field(..., env="DB_PASSWORD")
 
 
 # env = EnvSettings(_env_file=".env")

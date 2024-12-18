@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.exc import NoResultFound
 
-from src.entities.user import User
+from src.entities import User
 from src.modules.user import dto
 from src.modules.user import repo
 from pprint import pprint
@@ -43,7 +43,9 @@ async def update_user(db: AsyncSession, user_id: int, user: dto.UserUpdate) -> U
     if not db_user:
         raise NoResultFound("User not found")
 
-    for key, value in user.dict(exclude_unset=True).items():
+
+    for key, value in user.model_dump(exclude_unset=True).items():
+    # for key, value in user.dict(exclude_unset=True).items():
         setattr(db_user, key, value)
 
     await db.commit()
@@ -56,7 +58,7 @@ async def delete_user(db: AsyncSession, user_id: int):
     db_user = await repo.get_user(db, user_id)
     print("🐍 File: user/ser db_user",db_user.__dict__)
 
-    # pprint(db_user)
+    # print(db_user)
     if not db_user:
         raise NoResultFound("User not found")
     await db.delete(db_user)

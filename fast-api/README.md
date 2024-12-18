@@ -1,4 +1,5 @@
 # Template fastapi
+- Common (utils, constants, configs, types) > Entities (DB ...) > Core Modules (email, logger) > Feature Modules (auth, user, product, order)
 
 ## Install
 ### Conda

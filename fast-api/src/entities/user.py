@@ -1,7 +1,6 @@
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy import Column, Integer, String
-# from src.common.db import Base
-from src.common.db import Base
+from src.entities.db import Base
 
 class User(Base):
     __tablename__ = "users"

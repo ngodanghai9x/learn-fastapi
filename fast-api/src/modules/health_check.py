@@ -24,9 +24,9 @@ router = APIRouter(
 @router.get("/")
 async def read_root():
     return {
-            "app_name": env.app_name,
-            "debug": env.debug,
-            "secret_key": env.secret_key.get_secret_value()
+            "app_name": env.APP_NAME,
+            "debug": env.DEBUG,
+            "secret_key": env.DB_PASSWORD.get_secret_value()
         }
 
 

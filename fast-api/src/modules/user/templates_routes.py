@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
 from src.modules.user import sync_service, dto
-from src.common.db import get_db
+from src.entities import get_db
 
 router = APIRouter(
     # include_in_schema=True,

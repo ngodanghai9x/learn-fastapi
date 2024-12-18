@@ -4,9 +4,8 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from src.common.db import Base  # Import Base từ dự án
-from src.common.db import engine  # Sử dụng engine đã cấu hình trong database.py
-from src.entities import user
+from src.entities import Base, engine  # Import Base từ src.entities/__init__.py
+# from src.entities import user
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -21,8 +20,8 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = None
-target_metadata = user.Base.metadata
-# target_metadata = Base.metadata  # Sử dụng metadata của Base
+# target_metadata = user.Base.metadata
+target_metadata = Base.metadata  # Sử dụng metadata của Base
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

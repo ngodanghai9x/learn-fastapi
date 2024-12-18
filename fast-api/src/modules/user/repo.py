@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from src.entities.user import User
+from src.entities import User
 from src.modules.user import dto
 from pprint import pprint
 

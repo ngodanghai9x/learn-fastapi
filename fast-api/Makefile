@@ -9,9 +9,15 @@ CONDA_HOOK = eval "$$(conda shell.bash hook)"
 
 deConda:
 	$(CONDA_HOOK) && conda deactivate
-
 actConda:
 	$(CONDA_HOOK) && conda activate fastapi
+
+migrateGen:
+	alembic revision --autogenerate -m "Migration message"
+migrateUp:
+	alembic upgrade head
+migrateUp:
+	alembic downgrade -1
 
 # Lệnh cài đặt các thư viện
 install:
