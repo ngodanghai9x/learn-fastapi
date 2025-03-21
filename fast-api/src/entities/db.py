@@ -5,11 +5,11 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from src.configs.env_setting import env
 
 
-# DATABASE_URL = "sqlite:///./test.db"
-# ASYNC_DATABASE_URL = "sqlite+aiosqlite:///./test.db"
-DATABASE_URL       = f"postgresql://{env.DB_USER}:{env.DB_PASSWORD.get_secret_value()}@{env.DB_HOST}:{env.DB_PORT}/{env.DB_NAME}"
-ASYNC_DATABASE_URL = f"postgresql+asyncpg://{env.DB_USER}:{env.DB_PASSWORD.get_secret_value()}@{env.DB_HOST}:{env.DB_PORT}/{env.DB_NAME}"
-print("🐍 File: entities/db.py | Line: 12 | undefined ~ ASYNC_DATABASE_URL",ASYNC_DATABASE_URL)
+DATABASE_URL = "sqlite:///./test.db"
+ASYNC_DATABASE_URL = "sqlite+aiosqlite:///./test.db"
+# DATABASE_URL       = f"postgresql://{env.DB_USER}:{env.DB_PASSWORD.get_secret_value()}@{env.DB_HOST}:{env.DB_PORT}/{env.DB_NAME}"
+# ASYNC_DATABASE_URL = f"postgresql+asyncpg://{env.DB_USER}:{env.DB_PASSWORD.get_secret_value()}@{env.DB_HOST}:{env.DB_PORT}/{env.DB_NAME}"
+print("🐍 File: entities/db.py  ~ ASYNC_DATABASE_URL",ASYNC_DATABASE_URL)
 
 Base = declarative_base()
 engine = create_engine(DATABASE_URL)

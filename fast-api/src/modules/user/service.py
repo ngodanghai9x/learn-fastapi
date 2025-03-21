@@ -14,7 +14,7 @@ async def create_user(db: AsyncSession, user: dto.UserCreate) -> User:
         name=user.name,
         email=user.email,
         hashed_password=user.password,
-        json_data={"dict": True, "num": 123},  # Lưu dữ liệu json
+        # json_data={"dict": True, "num": 123},  # Lưu dữ liệu json
         # json_data=user.json_data,  # Lưu dữ liệu json
     )
     db.add(db_user)

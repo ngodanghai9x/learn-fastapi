@@ -22,4 +22,5 @@ class EnvSettings(BaseSettings):
 # env = EnvSettings(_env_file=".env")
 env = EnvSettings()
 
+print('pprint env')
 pprint(env)

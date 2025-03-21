@@ -4,18 +4,23 @@
 ## Install
 ### Conda
 - Install & create & activate env
-- Python 3.12.7
+- Python 3.11.11
 ### Packages
 ```sh
 # pip install pip-tools
 # pip-compile requirements.in
+# pip uninstall -r requirements.txt -y
 pip install -r requirements.txt
 ```
 
 ## Running app
-```sh
-make dev
-
+- Init database:
+```bash
+make resetDbMock
+make migrateUp
+```
+- Start app:
+```bash
 make run
 ```
 
