@@ -12,19 +12,21 @@ deConda:
 actConda:
 	$(CONDA_HOOK) && conda activate fastapi
 
+resetDbMock:
+	rm test.db || true & touch test.db
+
+genEnv:
+	cp ./sample.env .env
+
+install:
+	pip install -r requirements.txt
+
 migrateGen:
 	alembic revision --autogenerate -m "Migration message"
 migrateUp:
 	alembic upgrade head
 migrateDown:
 	alembic downgrade -1
-
-resetDbMock:
-	rm test.db & touch test.db
-
-# Lệnh cài đặt các thư viện
-install:
-	pip install -r requirements.txt
 
 # dev:
 # 	fastapi dev ./src/main.py

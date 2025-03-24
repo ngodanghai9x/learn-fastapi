@@ -2,6 +2,7 @@
 - Common (utils, constants, configs, types) > Entities (DB ...) > Core Modules (email, logger) > Feature Modules (auth, user, product, order)
 
 ## Install
+
 ### Conda
 - Install & create & activate env
 - Python 3.11.11
@@ -13,7 +14,14 @@
 pip install -r requirements.txt
 ```
 
+### Config pycharm
+![alt text](docs/images/pycharm.png)
+
 ## Running app
+- Generate file env:
+```bash
+make genEnv
+```
 - Init database:
 ```bash
 make resetDbMock
