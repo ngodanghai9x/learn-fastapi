@@ -2,9 +2,11 @@
 - Common (utils, constants, configs, types) > Entities (DB ...) > Core Modules (email, logger) > Feature Modules (auth, user, product, order)
 
 ## Install
+
 ### Conda
 - Install & create & activate env
-- Python 3.12.7
+- Python 3.11.11
+
 ### Packages
 ```sh
 # pip install pip-tools
@@ -12,10 +14,21 @@
 pip install -r requirements.txt
 ```
 
-## Running app
-```sh
-make dev
+### Config pycharm
+![alt text](docs/images/pycharm.png)
 
+## Running app
+- Generate file env:
+```bash
+make genEnv
+```
+- Init database:
+```bash
+make resetDbMock
+make migrateUp
+```
+- Start app:
+```bash
 make run
 ```
 

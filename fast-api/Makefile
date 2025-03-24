@@ -12,6 +12,15 @@ deConda:
 actConda:
 	$(CONDA_HOOK) && conda activate fastapi
 
+resetDbMock:
+	rm test.db || true & touch test.db
+
+genEnv:
+	cp ./sample.env .env
+
+install:
+	pip install -r requirements.txt
+
 migrateGen:
 	alembic revision --autogenerate -m "Migration message"
 migrateUp:
@@ -19,12 +28,8 @@ migrateUp:
 migrateUp:
 	alembic downgrade -1
 
-# Lệnh cài đặt các thư viện
-install:
-	pip install -r requirements.txt
-
-dev:
-	fastapi dev ./src/main.py
+# dev:
+# 	fastapi dev ./src/main.py
 
 # Chạy ứng dụng FastAPI
 run:
