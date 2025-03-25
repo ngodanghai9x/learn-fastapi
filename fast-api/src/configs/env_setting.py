@@ -12,6 +12,9 @@ class EnvSettings(BaseSettings):
     APP_NAME: str = Field(..., env="APP_NAME")
     DEBUG: bool = Field(False, env="DEBUG")
 
+    APP_HOST: str = Field(..., env="APP_HOST")
+    APP_PORT: int = Field(..., env="APP_PORT")
+
     DB_HOST: str = Field('0.0.0.0', env="DB_HOST")
     DB_PORT: int = Field(5432, env="DB_PORT")
     DB_NAME: str = Field('postgres', env="DB_NAME")

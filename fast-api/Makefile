@@ -1,25 +1,31 @@
 MAIN_PATH=src.main
-HOST=0.0.0.0
-PORT=8010
-# Sử dụng Bash shell
-SHELL := /bin/bash
+# APP_HOST=0.0.0.0
+# APP_PORT=8011
 
-# Lệnh kích hoạt Conda shell hook
-CONDA_HOOK = eval "$$(conda shell.bash hook)"
+# # Sử dụng Bash shell
+# SHELL := /bin/bash
 
-deConda:
-	$(CONDA_HOOK) && conda deactivate
-actConda:
-	$(CONDA_HOOK) && conda activate fastapi
+# # Lệnh kích hoạt Conda shell hook
+# CONDA_HOOK = eval "$$(conda shell.bash hook)"
+
+# deConda:
+# 	$(CONDA_HOOK) && conda deactivate
+# actConda:
+# 	$(CONDA_HOOK) && conda activate fastapi
+
+ifneq (,$(wildcard .env))
+    include .env
+    export $(shell sed 's/=.*//' .env)
+endif
+
+install:
+	pip install -r requirements.txt
 
 resetDbMock:
 	rm test.db || true & touch test.db
 
 genEnv:
 	cp ./sample.env .env
-
-install:
-	pip install -r requirements.txt
 
 migrateGen:
 	alembic revision --autogenerate -m "Migration message"
@@ -28,13 +34,17 @@ migrateUp:
 migrateUp:
 	alembic downgrade -1
 
-# dev:
-# 	fastapi dev ./src/main.py
+printEnv:
+	printenv | grep '^APP'
+	printenv | grep '^DB_'
 
-# Chạy ứng dụng FastAPI
+dev:
+	uvicorn $(MAIN_PATH):app --host $(APP_HOST) --port $(APP_PORT) --reload
+runNew:
+	python src/main.py
 run:
-	uvicorn $(MAIN_PATH):app --host $(HOST) --port $(PORT) --reload
-# uvicorn --app-dir src $(MAIN_PATH):app --host $(HOST) --port $(PORT) --reload
+	uvicorn $(MAIN_PATH):app --host $(APP_HOST) --port $(APP_PORT)
+# uvicorn --app-dir src $(MAIN_PATH):app --host $(APP_HOST) --port $(APP_PORT) --reload
 # uvicorn --app-dir src main:app --host 0.0.0.0 --port 8010 --reload
 
 # Kiểm tra format code với black
@@ -58,8 +68,3 @@ rebuild:
 clean:
 	find . -type f -name "*.pyc" -delete
 	find . -type d -name "__pycache__" -exec rm -r {} +
-# run:
-# 	@. .venv/bin/activate && python3 src/main.py
-
-# api:
-# 	@. .venv/bin/activate && uvicorn --app-dir src api:app --port 9090 --reload
