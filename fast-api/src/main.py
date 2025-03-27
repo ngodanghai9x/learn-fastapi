@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.common.types import CustomORJSONResponse
 from src.common.middlewares import add_process_time_header
@@ -22,6 +23,13 @@ app.mount("/static", StaticFiles(directory="public"), name="public")
 
 app.middleware("http")(add_process_time_header)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def main():
