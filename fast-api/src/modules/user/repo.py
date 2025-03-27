@@ -38,6 +38,7 @@ async def get_users(db: AsyncSession, skip: int = 0, limit: int = 10) -> list[Us
 
 # Update user
 async def update_user(db: AsyncSession, user_id: int, user: dto.UserUpdate) -> User:
+    db_user = await get_user(db, user_id)
     for key, value in user.dict(exclude_unset=True).items():
         setattr(db_user, key, value)
 
@@ -47,6 +48,6 @@ async def update_user(db: AsyncSession, user_id: int, user: dto.UserUpdate) -> U
 
 
 # Delete user
-async def delete_user(db: AsyncSession, user_id: int):
+async def delete_user(db: AsyncSession, db_user: User):
     await db.delete(db_user)
     await db.commit()

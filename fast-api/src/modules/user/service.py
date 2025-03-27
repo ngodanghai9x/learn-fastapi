@@ -4,64 +4,46 @@ from sqlalchemy.future import select
 from sqlalchemy.exc import NoResultFound
 
 from src.entities import User
-from src.modules.user import dto
-from src.modules.user import repo
+from src.modules.user import dto as userDto
+from src.modules.user import repo as userRepo
 from pprint import pprint
 
 # Create user
-async def create_user(db: AsyncSession, user: dto.UserCreate) -> User:
-    db_user = User(
-        name=user.name,
-        email=user.email,
-        hashed_password=user.password,
-        json_data={"dict": True, "num": 123},  # Lưu dữ liệu json
-        # json_data=user.json_data,  # Lưu dữ liệu json
-    )
-    db.add(db_user)
-    await db.commit()
-    await db.refresh(db_user)  # Tải lại đối tượng sau khi commit
-    return db_user
+async def create_user(db: AsyncSession, body: userDto.UserCreate) -> User:
+    res = await userRepo.create_user(db, body) 
+    return res
 
 # Get user by ID
 async def get_user(db: AsyncSession, user_id: int) -> User | None:
-    result = await db.execute(select(User).filter(User.id == user_id))
-    return result.scalars().first()  # Lấy kết quả đầu tiên hoặc None
+    res = await userRepo.get_user(db, user_id) 
+    return res
 
 # Get user by email
 async def get_user_by_email(db: AsyncSession, email: str) -> User | None:
-    result = await db.execute(select(User).filter(User.email == email))
-    return result.scalars().first()
+    res = await userRepo.get_user_by_email(db, email) 
+    return res
 
 # Get all users
 async def get_users(db: AsyncSession, skip: int = 0, limit: int = 10) -> list[User]:
-    result = await db.execute(select(User).offset(skip).limit(limit))
-    return result.scalars().all()
+    res = await userRepo.get_users(db, skip, limit) 
+    return res
 
 # Update user
-async def update_user(db: AsyncSession, user_id: int, user: dto.UserUpdate) -> User:
-    db_user = await repo.get_user(db, user_id)
-    if not db_user:
-        raise NoResultFound("User not found")
-
-
-    for key, value in user.model_dump(exclude_unset=True).items():
-    # for key, value in user.dict(exclude_unset=True).items():
-        setattr(db_user, key, value)
-
-    await db.commit()
-    await db.refresh(db_user)
-    return db_user
+async def update_user(db: AsyncSession, user_id: int, body: userDto.UserUpdate) -> User:
+    res = await userRepo.update_user(db, user_id, body) 
+    return res
 
 
 # Delete user
 async def delete_user(db: AsyncSession, user_id: int):
-    db_user = await repo.get_user(db, user_id)
+    db_user = await userRepo.get_user(db, user_id)
     print("🐍 File: user/ser db_user",db_user.__dict__)
 
-    # print(db_user)
-    if not db_user:
-        raise NoResultFound("User not found")
-    await db.delete(db_user)
-    await db.commit()
+    # if not db_user:
+    #     raise NoResultFound("User not found")
+    #     # raise HTTPException(status_code=404, detail="User not found")
 
-    return db_user.__dict__
+    res = await userRepo.delete_user(db, db_user) 
+    return res
+
+    # return db_user.__dict__
