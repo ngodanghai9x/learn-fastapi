@@ -3,14 +3,15 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.common.types import CustomORJSONResponse
-from src.common.middlewares import add_process_time_header
+from src.common.types import CustomORJSONResponse, CustomHTTPException
+from src.common.middlewares import add_process_time_header, validation_exception_handler, http_exception_handler
 from src.configs.env_setting import env
 
 from src.modules.user.routes import router as user_router
 from src.modules.user.templates_routes import router as user_templates_router
 from src.modules.health_check import router as health_check_router
 from src.modules.sample import router as sample_router
+from fastapi.exceptions import RequestValidationError
 
 app = FastAPI(default_response_class=CustomORJSONResponse)
 
@@ -30,6 +31,9 @@ app.add_middleware(
     allow_methods=["*"],  
     allow_headers=["*"],
 )
+
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(CustomHTTPException, http_exception_handler)
 
 @app.get("/")
 async def main():

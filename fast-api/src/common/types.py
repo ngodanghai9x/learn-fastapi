@@ -21,7 +21,7 @@ class CustomHTTPException(HTTPException):
     def to_dict(self):
         return {
             "status_code": self.status_code,
-            "detail": self.detail,
+            # "detail": self.detail,
             "message_code": self.message_code,
             "message_code_args": self.message_code_args,
             "data": self.data,
