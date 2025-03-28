@@ -3,8 +3,9 @@ import time
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from starlette.responses import JSONResponse
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 
-from src.common.types import ExceptionResponse, SuccessResponse, CustomHTTPException
+from src.common.types import ExceptionResponse, SuccessResponse, CustomHTTPException, CustomORJSONResponse
 
 # app = FastAPI()
 
@@ -40,7 +41,26 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 async def http_exception_handler(request: Request, exc: CustomHTTPException):
     """Middleware bắt lỗi HTTPException và sửa lại format response"""
-    return JSONResponse(
+    return CustomORJSONResponse(
         status_code=exc.status_code,
         content=exc.to_dict(),
     )
+
+
+
+class I18nMiddleware(BaseHTTPMiddleware):
+    WHITE_LIST = ['en', 'vn']
+
+    async def dispatch(  # type: ignore
+            self, request: Request, call_next: RequestResponseEndpoint):
+        # 1. headers 2. path 3. query string
+        locale = request.headers.get('locale', None) or \
+                request.path_params.get('locale', None) or \
+                request.query_params.get('locale', None) or \
+                'en'
+
+        if locale not in self.WHITE_LIST:
+            locale = 'en'
+        request.state.locale = locale
+
+        return await call_next(request)

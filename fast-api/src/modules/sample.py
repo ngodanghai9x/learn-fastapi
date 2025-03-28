@@ -14,9 +14,11 @@ from fastapi import (
     UploadFile,
     status,
     Security,
-    Response
+    Response,
+    Request
 )
 from src.configs.env_setting import env
+from src.common.translator import Translator
 from src.common.types import ExceptionResponse, SuccessResponse, CustomHTTPException
 from src.common.utils import file_iterator, afile_iterator, to_safe_filename
 from src.entities import get_async_db
@@ -67,6 +69,19 @@ async def download_file():
         headers={"Content-Disposition": "inline"}
         # headers={"Content-Disposition": "attachment; filename=example.txt"}
     )
+
+@router.get('/my-resource')
+def get_my_resource(request: Request): 
+    translator = Translator(request.state.locale)
+    # 'hello world'
+    print(translator.t('exception.hello'))
+    # 'Hi, Jon Doe'
+    # print(translator.t('exception.common'), user_name='Jon Doe')
+
+    return SuccessResponse({
+            "mes": translator.t('exception.common', user_name='Jon Doe'),
+            "hi" : translator.t('exception.hello')
+        })
 
 @router.get("/resp")
 async def read_root():

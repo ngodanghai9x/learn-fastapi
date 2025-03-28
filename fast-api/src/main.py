@@ -4,7 +4,12 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.common.types import CustomORJSONResponse, CustomHTTPException
-from src.common.middlewares import add_process_time_header, validation_exception_handler, http_exception_handler
+from src.common.middlewares import (
+    add_process_time_header, 
+    validation_exception_handler, 
+    http_exception_handler,
+    I18nMiddleware,
+)
 from src.configs.env_setting import env
 
 from src.modules.user.routes import router as user_router
@@ -31,6 +36,7 @@ app.add_middleware(
     allow_methods=["*"],  
     allow_headers=["*"],
 )
+app.add_middleware(I18nMiddleware)
 
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(CustomHTTPException, http_exception_handler)
