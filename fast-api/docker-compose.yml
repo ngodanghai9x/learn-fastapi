@@ -2,13 +2,15 @@
 
 services:
   fastapi:
+    container_name: fastapi
     build:
       context: .
       dockerfile: Dockerfile
+    restart: unless-stopped
     ports:
-      - "8010:8010"
-    # volumes:
-    #   - .:/app
+      - "8010:8011"
+    volumes:
+      - ./uploads:/uploads
     env_file: ".env"
     # environment:
     #   - DATABASE_URL=postgresql://user:password@db:5432/fastapi_db
@@ -26,6 +28,5 @@ services:
   #     POSTGRES_DB: fastapi_db
   #   volumes:
   #     - db_data:/var/lib/postgresql/data
-
 # volumes:
 #   db_data:

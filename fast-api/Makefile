@@ -31,7 +31,7 @@ migrateGen:
 	alembic revision --autogenerate -m "Migration message"
 migrateUp:
 	alembic upgrade head
-migrateUp:
+migrateDown:
 	alembic downgrade -1
 
 printEnv:
