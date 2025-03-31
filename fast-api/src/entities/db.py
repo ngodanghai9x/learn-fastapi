@@ -17,6 +17,7 @@ engine = create_engine(DATABASE_URL)
 Base.metadata.create_all(bind=engine)
 
 SessionDb = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 def get_db() -> Session:
     db = SessionDb()
     try:
@@ -26,8 +27,13 @@ def get_db() -> Session:
 
 
 AsyncSessionDb = sessionmaker(create_async_engine(ASYNC_DATABASE_URL, echo=True), expire_on_commit=False, class_=AsyncSession)
+
 async def get_async_db() -> AsyncSession:
     async with AsyncSessionDb() as session:
         yield session
+
+async def async_session_maker() -> AsyncSession:
+    return AsyncSessionDb()  # Trả về instance của AsyncSession
+
 
 
