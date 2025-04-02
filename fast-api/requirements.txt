@@ -83,3 +83,4 @@ python-multipart==0.0.20
 orjson==3.10.16
 httpx==0.28.1
 aiofiles==24.1.0
+gunicorn==23.0.0

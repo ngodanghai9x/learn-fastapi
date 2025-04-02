@@ -1,12 +1,23 @@
 # import httpx
-from typing import Optional, Dict, Any, Literal, Union
+from typing import Optional, Dict, Any, Literal, Union, AsyncGenerator
 import re
 import aiofiles
+import asyncio
 
-async def afile_iterator(file_path: str):
-    async with aiofiles.open(file_path, mode="rb") as f:
-        while chunk := await f.read(1024):  # Đọc từng chunk 1024 bytes
-            yield chunk
+async def async_file_iterator(file_path: str) -> AsyncGenerator[bytes, None]:
+    try:
+        if not file_path:
+            return  # Không cần `return None`, chỉ cần `return` là đủ
+
+        await asyncio.sleep(0.1)  # Cho hệ điều hành có thời gian ghi xong
+
+        async with aiofiles.open(file_path, mode="rb") as f:
+            while chunk := await f.read(1024):  # Đọc từng chunk 1024 bytes
+                yield chunk
+
+    except Exception as e:
+        print(f"Error reading file: {e}")
+        return 
 
 def file_iterator(file_path: str):
     with open(file_path, mode="rb") as f:

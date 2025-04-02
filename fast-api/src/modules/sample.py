@@ -1,6 +1,8 @@
 import io
 import os
 import shutil
+import threading
+
 from fastapi import FastAPI
 from typing import Union, Annotated
 from fastapi.responses import FileResponse
@@ -23,7 +25,7 @@ from fastapi import (
 from src.configs.env_setting import env
 from src.common.translator import Translator
 from src.common.types import ExceptionResponse, SuccessResponse, CustomHTTPException
-from src.common.utils import file_iterator, afile_iterator, to_safe_filename
+from src.common.utils import file_iterator, async_file_iterator, to_safe_filename
 from src.entities import get_async_db, async_session_maker
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import StreamingResponse
@@ -41,7 +43,7 @@ router = APIRouter(
 async def slow_func(name: str):
     print(f'slow func {name} is running ')
     async with await async_session_maker() as db:
-        pprint(db)
+        print(name, db)
     pass
 
 @router.get("/items/")
@@ -89,6 +91,17 @@ async def save_file(
     background_tasks.add_task(slow_func, '1st')
     background_tasks.add_task(slow_func, '2nd')
 
+    # threading.Thread(
+    #     target=slow_func,
+    #     args=(name),
+    #     daemon=True,
+    # ).start()
+    # threading.Thread(
+    #     target=slow_func,
+    #     args=(name),
+    #     daemon=True,
+    # ).start()
+
     return SuccessResponse({
             "saved_path": saved_path,
             "safe_filename": safe_filename,
@@ -101,13 +114,13 @@ async def download_file():
 
     # Chuyển bytes thành một stream (io.BytesIO)
     file_stream = io.BytesIO(file_content)
-    file_stream = afile_iterator( os.path.join(UPLOAD_DIR, 'abc.txt'))
+    file_stream = async_file_iterator(os.path.join(UPLOAD_DIR, 'abc.json'))
 
     # Trả về file với dạng StreamingResponse
     return StreamingResponse(
         file_stream, 
-        media_type="application/octet-stream", 
-        headers={"Content-Disposition": "inline"}
+        media_type="application/json" or "application/octet-stream", 
+        headers={"Content-Disposition": "inline", "X-File-Status": "Success"}
         # headers={"Content-Disposition": "attachment; filename=example.txt"}
     )
 

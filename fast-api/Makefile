@@ -47,6 +47,10 @@ run:
 # uvicorn --app-dir src $(MAIN_PATH):app --host $(APP_HOST) --port $(APP_PORT) --reload
 # uvicorn --app-dir src main:app --host 0.0.0.0 --port 8010 --reload
 
+runGunicorn:
+	gunicorn -k uvicorn.workers.UvicornWorker -w 4 -b 0.0.0.0:8011 --reload src.main:app
+
+
 # Kiểm tra format code với black
 format:
 	black .
